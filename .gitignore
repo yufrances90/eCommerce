@@ -1,3 +1,6 @@
 
 .DS_Store
 app/README.md
+.idea
+app/target
+app/auth-course.iml
