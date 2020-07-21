@@ -47,6 +47,10 @@ public class UserController {
 
 		User user = this.userService.createUser(createUserRequest);
 
+		if (user == null) {
+			return ResponseEntity.badRequest().build();
+		}
+
 		return ResponseEntity.ok(user);
 	}
 	

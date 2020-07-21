@@ -24,7 +24,7 @@ public class UserService {
 
     public User createUser(CreateUserRequest createUserRequest) {
 
-        if (this.passwordService.validateUserCreation(createUserRequest)) {
+        if (!this.passwordService.validateUserCreation(createUserRequest)) {
             return null;
         }
 
