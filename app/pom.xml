@@ -78,6 +78,12 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 			<version>2.3.1.RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>auth0-spring-security-api</artifactId>
+			<version>1.0.0-rc.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
