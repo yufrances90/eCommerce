@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,31 +22,31 @@ import com.example.demo.model.persistence.repositories.UserRepository;
 @RequestMapping("/api/order")
 public class OrderController {
 	
-	
 	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private OrderRepository orderRepository;
-	
-	
+	private OrderService orderService;
+
 	@PostMapping("/submit/{username}")
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
-		User user = userRepository.findByUsername(username);
-		if(user == null) {
+
+		UserOrder order = this.orderService.submitOrder(username);
+
+		if(order == null) {
 			return ResponseEntity.notFound().build();
 		}
-		UserOrder order = UserOrder.createFromCart(user.getCart());
-		orderRepository.save(order);
+
 		return ResponseEntity.ok(order);
 	}
 	
 	@GetMapping("/history/{username}")
 	public ResponseEntity<List<UserOrder>> getOrdersForUser(@PathVariable String username) {
-		User user = userRepository.findByUsername(username);
-		if(user == null) {
+
+		List<UserOrder> userOrders =
+				this.orderService.getOrdersForUser(username);
+
+		if(userOrders == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(orderRepository.findByUser(user));
+
+		return ResponseEntity.ok(userOrders);
 	}
 }
