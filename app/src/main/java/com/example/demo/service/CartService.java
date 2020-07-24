@@ -54,4 +54,30 @@ public class CartService {
 
         return savedCart;
     }
+
+    public Cart removeFromCart(ModifyCartRequest modifyCartRequest) {
+
+        User user = this.userRepository.findByUsername(
+                modifyCartRequest.getUsername());
+
+        if (user == null) {
+            return null;
+        }
+
+        Optional<Item> optionalItem =
+                this.itemRepository.findById(modifyCartRequest.getItemId());
+
+        if (!optionalItem.isPresent()) {
+            return null;
+        }
+
+        Cart cart = user.getCart();
+
+        IntStream.range(0, modifyCartRequest.getQuantity())
+                .forEach(i -> cart.removeItem(optionalItem.get()));
+
+        Cart savedCart = this.cartRepository.save(cart);
+
+        return savedCart;
+    }
 }

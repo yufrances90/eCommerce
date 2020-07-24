@@ -81,6 +81,53 @@ public class CartServiceTests {
         Assertions.assertThat(cart.getItems().size()).isNotZero();
     }
 
+    @Test
+    public void removeFromCartWithNonexistUser() {
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+
+        Cart cart = this.cartService.removeFromCart(modifyCartRequest);
+
+        Assertions.assertThat(cart).isNull();
+    }
+
+    @Test
+    public void removeFromCart() {
+
+        this.saveUser("hello04");
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+
+        modifyCartRequest.setItemId(this.item.getId());
+        modifyCartRequest.setUsername(this.user.getUsername());
+        modifyCartRequest.setQuantity(1);
+
+        Cart cart = this.cartService.addToCart(modifyCartRequest);
+
+        Assertions.assertThat(cart).isNotNull();
+
+        Assertions.assertThat(cart.getItems().size()).isNotZero();
+
+        cart = this.cartService.removeFromCart(modifyCartRequest);
+
+        Assertions.assertThat(cart.getItems().size()).isZero();
+    }
+
+    @Test
+    public void removeFromCartWithNonexisItem() {
+
+        this.saveUser("hello03");
+
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+
+        modifyCartRequest.setItemId(99L);
+        modifyCartRequest.setUsername(this.user.getUsername());
+
+        Cart cart = this.cartService.removeFromCart(modifyCartRequest);
+
+        Assertions.assertThat(cart).isNull();
+    }
+
     private void saveItem() {
 
         Item item = new Item();
