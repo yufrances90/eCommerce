@@ -84,6 +84,13 @@
 			<artifactId>auth0-spring-security-api</artifactId>
 			<version>1.0.0-rc.3</version>
 		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
