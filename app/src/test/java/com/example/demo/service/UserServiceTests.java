@@ -117,4 +117,53 @@ public class UserServiceTests {
         Assertions.assertThat(userDetails.getPassword()).isEqualTo(
                 user.getPassword());
     }
+
+    @Test
+    public void findUserByIdWithoutUserFound() {
+
+        User user = this.userService.findUserById(199);
+
+        Assertions.assertThat(user).isNull();
+    }
+
+    @Test
+    public void findUserById() {
+
+        User user = new User();
+
+        user.setUsername("hello2");
+        user.setPassword("helloworld");
+        user.setCart(new Cart());
+
+        User savedUser = this.userRepository.save(user);
+
+        User user1 = this.userService.findUserById(savedUser.getId());
+
+        Assertions.assertThat(user1).isNotNull();
+
+        Assertions.assertThat(user1.getPassword()).isEqualTo(user.getPassword());
+        Assertions.assertThat(user1.getUsername()).isEqualTo(user.getUsername());
+    }
+
+    @Test
+    public void findUserByUsername() {
+
+        User user = new User();
+
+        user.setUsername("hello3");
+        user.setPassword("helloworld");
+        user.setCart(new Cart());
+
+        this.userRepository.save(user);
+
+        User savedUser =
+                this.userService.findUserByUsername(user.getUsername());
+
+        Assertions.assertThat(savedUser).isNotNull();
+
+        Assertions.assertThat(savedUser.getUsername()).isEqualTo(
+                user.getUsername());
+        Assertions.assertThat(savedUser.getPassword()).isEqualTo(
+                user.getPassword());
+    }
 }

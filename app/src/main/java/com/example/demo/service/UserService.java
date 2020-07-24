@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -60,5 +61,20 @@ public class UserService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
                 username, user.getPassword(), Collections.emptyList());
+    }
+
+    public User findUserById(long userId) {
+
+        Optional<User> optionalUser = this.userRepository.findById(userId);
+
+        if (!optionalUser.isPresent()) {
+            return null;
+        }
+
+        return optionalUser.isPresent()? optionalUser.get() : null;
+    }
+
+    public User findUserByUsername(String username) {
+        return this.userRepository.findByUsername(username);
     }
 }
