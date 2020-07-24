@@ -23,15 +23,6 @@ import com.example.demo.model.requests.ModifyCartRequest;
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private CartRepository cartRepository;
-	
-	@Autowired
-	private ItemRepository itemRepository;
 
 	@Autowired
 	private CartService cartService;
@@ -49,8 +40,7 @@ public class CartController {
 	}
 	
 	@PostMapping("/removeFromCart")
-	public ResponseEntity<Cart> removeFromcart(
-			@RequestBody ModifyCartRequest request) {
+	public ResponseEntity<Cart> removeFromcart(@RequestBody ModifyCartRequest request) {
 
 		Cart cart = this.cartService.removeFromCart(request);
 
