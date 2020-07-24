@@ -64,6 +64,41 @@ public class OrderServiceTests {
         Assertions.assertThat(item.getName()).isEqualTo("product");
     }
 
+    @Test
+    public void getOrdersForUserWithNonexistUser() {
+
+        List<UserOrder> userOrders = this.orderService.getOrdersForUser(
+             "hello");
+
+        Assertions.assertThat(userOrders).isNull();
+    }
+
+    @Test
+    public void getOrdersForUser() {
+
+        this.saveUser("hello12");
+
+        this.orderService.submitOrder("hello12");
+
+        List<UserOrder> userOrders = this.orderService.getOrdersForUser(
+                "hello12");
+
+        Assertions.assertThat(userOrders).isNotNull();
+
+        Assertions.assertThat(userOrders).isNotEmpty();
+
+        UserOrder userOrder = userOrders.get(0);
+
+        User user = userOrder.getUser();
+
+        Assertions.assertThat(user).isNotNull();
+
+        Assertions.assertThat(user.getUsername()).isEqualTo(
+                "hello12");
+
+        Assertions.assertThat(user.getPassword()).isEqualTo("sasesfsdf");
+    }
+
     public void saveUser(String username) {
 
         User user = new User();
